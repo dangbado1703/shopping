@@ -1,0 +1,42 @@
+.title {
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--text-color);
+}
+
+.products-title {
+  text-align: center;
+  margin-bottom: 30px;
+  span {
+    font-style: normal;
+    font-weight: 100;
+    font-size: 42px;
+    line-height: 42px;
+    color: var(--text-color);
+  }
+}
+
+.container-products {
+  display: flex;
+  & > div:first-child {
+    width: 25%;
+  }
+  & > div:last-child {
+    width: 75%;
+  }
+}
+.custom-stars {
+  span {
+    cursor: pointer !important;
+  }
+}
+
+.__custom-product-star {
+  @apply ml-2;
+}
+
+.btn-right {
+  margin-left: 16px !important;
+}
