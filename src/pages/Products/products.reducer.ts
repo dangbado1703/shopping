@@ -11,6 +11,7 @@ const initState: InitStateForm<IFormDataProducts> = {
   data: {
     dataProducts: [],
     dataCategory: [],
+    dataDetailProduct: null,
   },
   totalElements: 0,
 };
@@ -37,6 +38,15 @@ export const getCategory = createAsyncThunk(
   }
 );
 
+export const getDetailProduct = createAsyncThunk(
+  "products/getDetail",
+  async (id: string) => {
+    const result = await instance.get(`/products/detail?product_id=${id}`);
+    console.log("result", result);
+    return result;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: initState,
@@ -53,6 +63,11 @@ const productSlice = createSlice({
           state.data.dataProducts = action.payload.data.data;
         }
         state.totalElements = action.payload.data.totalElements;
+      })
+      .addCase(getDetailProduct.fulfilled, (state, action) => {
+        if (state.data) {
+          state.data.dataDetailProduct = action.payload.data.data;
+        }
       });
   },
 });

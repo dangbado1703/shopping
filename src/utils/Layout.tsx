@@ -9,7 +9,7 @@ const Layout = () => {
   const location = useLocation();
   useEffect(() => {
     setIsPage(location.pathname);
-  }, []);
+  }, [location]);
   const className =
     "flex justify-center border-b-4 border-transparent hover:text-indigo-600 py-4 cursor-pointer transition ease-in-out";
   return (

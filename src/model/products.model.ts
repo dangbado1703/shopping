@@ -3,6 +3,7 @@ import { FormDataHome } from "./home.modle";
 export interface IFormDataProducts {
   dataProducts: FormDataHome[];
   dataCategory: FormDataCategory[];
+  dataDetailProduct: FormDataHome | null;
 }
 
 export interface FormDataCategory {
