@@ -188,3 +188,5 @@ export const CONVERT_MONEY = (number: number) => {
   }).format(number);
   return money;
 };
+
+export const USER_INFO = "user_ifo";

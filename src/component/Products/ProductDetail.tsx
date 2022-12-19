@@ -7,7 +7,7 @@ import ReactStars from "react-rating-stars-component";
 import Review from "./Review";
 
 const ProductDetail = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const params = useParams<{ product_id: string }>();
   const dispatch = useAppDispatch();
@@ -18,8 +18,8 @@ const ProductDetail = () => {
     }
   }, [params]);
   const handleOpenReview = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
   return (
     <div>
       <div className="mb-8 flex">
@@ -66,9 +66,14 @@ const ProductDetail = () => {
         </div>
       </div>
       <div>
-        <span onClick={handleOpenReview} className="cursor-pointer text-blue-500">Viết đánh giá</span>
+        <span
+          onClick={handleOpenReview}
+          className="cursor-pointer text-blue-500"
+        >
+          Viết đánh giá
+        </span>
       </div>
-      <Review isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Review isOpen={isOpen} setIsOpen={setIsOpen} title="Viết đánh giá" />
     </div>
   );
 };

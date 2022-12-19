@@ -5,6 +5,7 @@ import {
   IFormDataProducts,
   IFormSearchProducts,
 } from "../../model/products.model";
+import { IFormRating } from "../../model/rating.model";
 import { InitStateForm } from "../../model/root.model";
 const initState: InitStateForm<IFormDataProducts> = {
   isLoading: false,
@@ -47,6 +48,15 @@ export const getDetailProduct = createAsyncThunk(
   }
 );
 
+export const addReview = createAsyncThunk(
+  "products/addReview",
+  async (data: IFormRating) => {
+    const result = await instance.post("/products", data);
+    console.log("result", result);
+    return result;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: initState,
@@ -68,6 +78,15 @@ const productSlice = createSlice({
         if (state.data) {
           state.data.dataDetailProduct = action.payload.data.data;
         }
+      })
+      .addCase(addReview.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addReview.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(addReview.fulfilled, (state) => {
+        state.isLoading = false;
       });
   },
 });
