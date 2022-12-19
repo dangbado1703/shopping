@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailProduct } from "../../pages/Products/products.reducer";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { CONVERT_MONEY } from "../../utils/contants";
 import ReactStars from "react-rating-stars-component";
+import Review from "./Review";
 
 const ProductDetail = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate();
   const params = useParams<{ product_id: string }>();
   const dispatch = useAppDispatch();
@@ -15,6 +17,9 @@ const ProductDetail = () => {
       dispatch(getDetailProduct(params.product_id));
     }
   }, [params]);
+  const handleOpenReview = () => {
+    setIsOpen(true)
+  }
   return (
     <div>
       <div className="mb-8 flex">
@@ -60,6 +65,10 @@ const ProductDetail = () => {
           <span>Số lượng còn lại: {data?.dataDetailProduct?.stock}</span>
         </div>
       </div>
+      <div>
+        <span onClick={handleOpenReview} className="cursor-pointer text-blue-500">Viết đánh giá</span>
+      </div>
+      <Review isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
