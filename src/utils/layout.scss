@@ -10,3 +10,9 @@
 .custom-inp:checked ~ .svg-icon {
   display: block;
 }
+
+.MuiInputBase-input {
+  input::placeholder {
+    font-size: 14px;
+  }
+}

@@ -5,6 +5,7 @@ import { store } from "./store/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -13,7 +14,9 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <StyledEngineProvider injectFirst>
+        <App />
+      </StyledEngineProvider>
     </BrowserRouter>
   </Provider>
   // </React.StrictMode>
