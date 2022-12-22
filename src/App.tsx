@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "./app.scss";
 import ProductDetail from "./component/Products/ProductDetail";
 import Home from "./pages/Home/Home";
@@ -11,6 +12,7 @@ import Layout from "./utils/Layout";
 function App() {
   return (
     <div className="App">
+      <ToastContainer position={toast.POSITION.TOP_RIGHT} autoClose={3000} />
       <Routes>
         <Route element={<Layout />}>
           <Route path={path.home} element={<Home />} />

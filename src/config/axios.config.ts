@@ -25,6 +25,7 @@ instance.interceptors.response.use(
     }
     if (status === 400) {
       const errMessage: any = error.response?.data;
+      console.log("errMessage", errMessage);
       toast.error(errMessage.message, { toastId: 400 });
     }
     return Promise.reject(error);
