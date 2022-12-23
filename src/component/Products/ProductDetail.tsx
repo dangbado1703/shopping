@@ -20,16 +20,12 @@ const ProductDetail = () => {
   const handleOpenReview = () => {
     setIsOpen(true);
   };
+  console.log("re-render");
   return (
     <div>
       <div className="mb-8 flex">
         <div className="w-1/3">
-          <img
-            src={data?.dataDetailProduct?.image}
-            onClick={() =>
-              navigate(`/product/detail/${data?.dataDetailProduct?.product_id}`)
-            }
-          />
+          <img src={data?.dataDetailProduct?.image} className="w-full" />
         </div>
         <div className="w-2/3 ml-5 flex flex-col justify-between">
           <span>Tên sản phẩm: {data?.dataDetailProduct?.product_name}</span>

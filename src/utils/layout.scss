@@ -11,8 +11,9 @@
   display: block;
 }
 
-.MuiInputBase-input {
-  input::placeholder {
-    font-size: 14px;
-  }
+.custom-modal {
+  @apply w-full;
+  @apply flex;
+  @apply justify-center;
+  @apply items-center;
 }

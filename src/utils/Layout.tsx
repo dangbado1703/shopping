@@ -11,7 +11,7 @@ const Layout = () => {
     setIsPage(location.pathname);
   }, [location]);
   const className =
-    "flex justify-center border-b-4 border-transparent hover:text-indigo-600 py-4 cursor-pointer transition ease-in-out";
+    "flex justify-center border-b-4 hover:text-indigo-600 hover:border-b-4 hover:border-indigo-500 py-4 cursor-pointer transition ease-in-out";
   return (
     <div>
       <div className="header">
@@ -87,7 +87,7 @@ const Layout = () => {
       <div className="menu py-9 px-36 bg-slate-50">
         <ul className="grid grid-flow-col text-center border-b border-gray-200 text-gray-500">
           {MENU.map((item) => (
-            <li className="text-center">
+            <li className="text-center list-none">
               <span
                 className={
                   isPage === item.path

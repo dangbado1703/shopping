@@ -1,4 +1,12 @@
-import { Rating, TextareaAutosize } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Rating,
+  TextareaAutosize,
+} from "@mui/material";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,10 +15,9 @@ import { addReview } from "../../pages/Products/products.reducer";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import ButtonCancel from "../../utils/ButtonCancel";
 import ButtonSubmit from "../../utils/ButtonSubmit";
-import CustomModal from "../../utils/CustomModal";
 import FieldError from "../../utils/FieldError";
 import ReactStars from "react-rating-stars-component";
-import { USER_INFO } from "../../utils/contants";
+import { TOKEN_KEY, USER_INFO } from "../../utils/contants";
 import path from "../../router/path";
 
 const Review = ({
@@ -18,7 +25,7 @@ const Review = ({
   setIsOpen,
   title,
 }: Pick<IFormPropsModal, "isOpen" | "setIsOpen" | "title">) => {
-  const [star, setStar] = useState(0);
+  const [star, setStar] = useState<number | null>(0);
   const navigate = useNavigate();
   const params = useParams<{ product_id: string | undefined }>();
   const dispatch = useAppDispatch();
@@ -35,8 +42,8 @@ const Review = ({
     },
   });
   const handleSubmitForm = (data: any) => {
-    const userInfo = JSON.parse(localStorage.getItem(USER_INFO) as string);
-    if (!userInfo) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
       navigate(path.login);
       return;
     }
@@ -55,71 +62,72 @@ const Review = ({
     });
   };
   const handleClose = () => {
+    setStar(null);
     setIsOpen(false);
     reset();
   };
   const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement, Element>) => {
     setValue("comment", e.target.value.trim(), { shouldDirty: true });
   };
-  const footer = (
-    <div className="flex">
-      <ButtonSubmit className="mr-4" type="submit">
-        <span>Gửi review</span>
-      </ButtonSubmit>
-      <ButtonCancel onClick={handleClose}>
-        <span>Huỷ</span>
-      </ButtonCancel>
-    </div>
-  );
   return (
     <div>
-      <CustomModal
-        onSubmit={handleSubmit}
-        handleSubmit={handleSubmitForm}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title={title}
-        footer={footer}
+      <Dialog
+        open={isOpen}
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+        fullWidth
       >
-        <>
-          <Controller
-            rules={{
-              required: "Trường này là bắt buộc",
-              maxLength: { value: 10, message: "Tối đa 10 ký tự" },
-            }}
-            control={control}
-            name="comment"
-            render={({ field: { onChange, onBlur, value, ref } }) => (
-              <FieldError
-                hasError={!!errors && !!errors.comment}
-                message={errors?.comment?.message}
-              >
-                <TextareaAutosize
-                  value={value}
-                  onChange={onChange}
-                  onBlur={handleBlur}
-                  minRows={4}
-                  className={
-                    `${!!errors && !!errors.comment ? "border-red-400" : ""}` +
-                    " text-black outline-none border p-3 w-full"
-                  }
-                />
-              </FieldError>
-            )}
-          />
-          <div>
-            <Rating
-              name="simple-controlled"
-              value={star}
-              onChange={(event, newValue) => {
-                if (newValue) {
+        <DialogTitle className="text-[30px] custom-font">
+          Viết đánh giá
+        </DialogTitle>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
+          <DialogContent id="alert-dialog-slide-description">
+            <DialogContentText>
+              <Controller
+                control={control}
+                name="comment"
+                rules={{
+                  required: { value: true, message: "Vui lòng nhập đánh giá" },
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <FieldError
+                    hasError={!!errors && !!errors.comment}
+                    message={errors.comment?.message}
+                  >
+                    <TextareaAutosize
+                      onChange={onChange}
+                      value={value}
+                      className={`w-[552px] outline-none text-base border p-4 max-w-[552px] min-w-[552px] ${
+                        !!errors && !!errors.comment ? "border-red-400" : ""
+                      }`}
+                      minRows={8}
+                      placeholder="Nhập đánh giá"
+                      onBlur={handleBlur}
+                    />
+                  </FieldError>
+                )}
+              />
+            </DialogContentText>
+            <DialogContentText>
+              <Rating
+                name="simple-controlled"
+                value={star}
+                onChange={(event, newValue) => {
                   setStar(newValue);
-                }
-              }}
-            />
-          </div>
-        </>
-      </CustomModal>
+                }}
+              />
+            </DialogContentText>
+          </DialogContent>
+        </form>
+        <DialogActions>
+          <ButtonSubmit type="submit" onClick={handleSubmit(handleSubmitForm)}>
+            <span>Gửi review</span>
+          </ButtonSubmit>
+          <ButtonCancel onClick={handleClose}>
+            <span>Hủy</span>
+          </ButtonCancel>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

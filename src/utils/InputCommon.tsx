@@ -1,9 +1,9 @@
-import { BaseTextFieldProps, TextField } from "@mui/material";
+import { BaseTextFieldProps, IconButton, TextField } from "@mui/material";
 import { Theme } from "@mui/system";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import { IFormLogin } from "../model/login.model";
 import "./layout.scss";
-
+import CloseIcon from "@mui/icons-material/Close";
 interface IFormPropsCustomInput extends BaseTextFieldProps {
   control: Control<IFormLogin, any>;
   name: keyof IFormLogin;
@@ -13,6 +13,7 @@ interface IFormPropsCustomInput extends BaseTextFieldProps {
     RegisterOptions<any, any>,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
+  handleClearValue: () => void;
 }
 
 const InputCommon = ({
@@ -21,8 +22,13 @@ const InputCommon = ({
   message,
   hasError,
   rules,
+  handleClearValue,
   ...rest
 }: IFormPropsCustomInput) => {
+  const handleClearClick = () => {
+    console.log("hello");
+    handleClearValue();
+  };
   return (
     <>
       <Controller
@@ -42,6 +48,17 @@ const InputCommon = ({
             inputProps={{
               className:
                 "placeholder:text-[12px] placeholder:italic h-6 text-[12px]",
+            }}
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  sx={{ visibility: value ? "visible" : "hidden" }}
+                  onClick={handleClearClick}
+                >
+                  <CloseIcon className="text-[12px]" />
+                </IconButton>
+              ),
+              className: "pr-1",
             }}
             InputLabelProps={{
               className: "text-[14px]",

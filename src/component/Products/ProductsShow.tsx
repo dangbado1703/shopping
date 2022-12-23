@@ -24,6 +24,7 @@ const ProductsShow = ({ page, size, valueSearch }: IFormProps) => {
             <img
               src={item?.image}
               onClick={() => navigate(`/product/detail/${item.product_id}`)}
+              className="w-full"
             />
           </div>
           <div className="w-2/3 ml-5 flex flex-col justify-between">

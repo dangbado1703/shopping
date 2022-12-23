@@ -43,7 +43,6 @@ export const getDetailProduct = createAsyncThunk(
   "products/getDetail",
   async (id: string) => {
     const result = await instance.get(`/products/detail?product_id=${id}`);
-    console.log("result", result);
     return result;
   }
 );
@@ -52,7 +51,6 @@ export const addReview = createAsyncThunk(
   "products/addReview",
   async (data: IFormRating) => {
     const result = await instance.post("/products", data);
-    console.log("result", result);
     return result;
   }
 );

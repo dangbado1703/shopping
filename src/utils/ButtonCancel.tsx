@@ -1,17 +1,29 @@
-import React from 'react'
+import React from "react";
 
-
-interface IFormPropsButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: JSX.Element
+interface IFormPropsButton
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: JSX.Element;
+  fullWidth?: boolean;
 }
-const ButtonCancel = ({ children, ...rest }: IFormPropsButton) => {
-    return (
-        <div>
-            <button className='p-2 text-white bg-red-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-300 transition-all' {...rest}>
-                {children}
-            </button>
-        </div>
-    )
-}
+const ButtonCancel = ({
+  children,
+  fullWidth = false,
+  ...rest
+}: IFormPropsButton) => {
+  const classNameBtn =
+    "w-full outline-none rounded-md border-none bg-red-400 hover:bg-red-500 text-[16px] text-white cursor-pointer focus:border focus:border-green-600 focus:ring p-2";
+  return (
+    <div>
+      <button
+        className={
+          fullWidth ? classNameBtn + " w-full" : classNameBtn + " w-[100px]"
+        }
+        {...rest}
+      >
+        {children}
+      </button>
+    </div>
+  );
+};
 
-export default ButtonCancel
+export default ButtonCancel;

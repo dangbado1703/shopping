@@ -1,14 +1,24 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { IFormLogin } from "../../model/login.model";
+import path from "../../router/path";
 import { useAppDispatch } from "../../store/hooks";
 import ButtonSubmit from "../../utils/ButtonSubmit";
+import { TOKEN_KEY } from "../../utils/contants";
 import InputCommon from "../../utils/InputCommon";
 import { login } from "./login.reducer";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      navigate(path.home);
+    }
+  }, []);
   const {
     control,
     formState: { errors },
@@ -21,19 +31,23 @@ const Login = () => {
     },
   });
   const handleSubmitForm = (data: IFormLogin) => {
-    dispatch(login(data))
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    dispatch(login(data)).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        navigate(-1);
+      }
+    });
   };
   const handleBlur = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
     name: keyof IFormLogin
   ) => {
     setValue(name, e.target.value.trim());
+  };
+  const handleClearValueUsername = () => {
+    setValue("username", "");
+  };
+  const handleClearValuePassword = () => {
+    setValue("password", "");
   };
   return (
     <div className="w-full flex justify-center items-center p-5 h-[100vh]">
@@ -47,6 +61,7 @@ const Login = () => {
               hasError={!!errors && !!errors.username}
               message={errors.username?.message}
               label="Username"
+              handleClearValue={handleClearValueUsername}
               rules={{
                 required: {
                   value: true,
@@ -64,6 +79,7 @@ const Login = () => {
               message={errors.password?.message}
               label="Password"
               type="password"
+              handleClearValue={handleClearValuePassword}
               rules={{
                 required: {
                   value: true,
@@ -72,7 +88,11 @@ const Login = () => {
               }}
             />
           </Grid>
-          <ButtonSubmit type="submit" className="mt-4 text-end w-full">
+          <ButtonSubmit
+            type="submit"
+            className="mt-4 text-end w-full"
+            fullWidth={true}
+          >
             <span>Đăng nhập</span>
           </ButtonSubmit>
         </form>

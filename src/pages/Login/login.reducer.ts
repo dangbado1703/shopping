@@ -20,7 +20,9 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log("action", action);
+      localStorage.setItem(TOKEN_KEY, action.payload.data.data.token);
+      state.token = action.payload.data.data.token;
+      state.dataUser = action.payload.data.data;
     });
   },
 });

@@ -30,7 +30,7 @@ const CheckboxCommon = ({
         name={type}
         checked={type === "checkbox" ? checked : undefined}
       />
-      <Check />
+      {checked ? <Check /> : ""}
       <label
         className="inline-block text-gray-800 cursor-pointer"
         htmlFor={htmlFor + value}
@@ -49,7 +49,7 @@ const Check = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-3 h-3 text-white absolute font-medium top-[4px] left-[2px] hidden svg-icon cursor-pointer"
+      className="w-3 h-3 text-white bg-redtext-white absolute font-medium top-[4px] left-[2px] svg-icon cursor-pointer"
     >
       <path
         strokeLinecap="round"
