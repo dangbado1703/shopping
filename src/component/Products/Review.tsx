@@ -19,6 +19,7 @@ import FieldError from "../../utils/FieldError";
 import ReactStars from "react-rating-stars-component";
 import { TOKEN_KEY, USER_INFO } from "../../utils/contants";
 import path from "../../router/path";
+import { toast } from "react-toastify";
 
 const Review = ({
   isOpen,
@@ -56,6 +57,8 @@ const Review = ({
       })
     ).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
+        const newPayload: any = res.payload;
+        toast.success(newPayload.data.message);
         handleClose();
         reset();
       }
@@ -120,7 +123,11 @@ const Review = ({
           </DialogContent>
         </form>
         <DialogActions>
-          <ButtonSubmit type="submit" onClick={handleSubmit(handleSubmitForm)}>
+          <ButtonSubmit
+            loading={isLoading}
+            type="submit"
+            onClick={handleSubmit(handleSubmitForm)}
+          >
             <span>Gửi review</span>
           </ButtonSubmit>
           <ButtonCancel onClick={handleClose}>

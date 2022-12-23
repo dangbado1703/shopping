@@ -50,7 +50,7 @@ export const getDetailProduct = createAsyncThunk(
 export const addReview = createAsyncThunk(
   "products/addReview",
   async (data: IFormRating) => {
-    const result = await instance.post("/products", data);
+    const result = await instance.post("/add-review", data);
     return result;
   }
 );
