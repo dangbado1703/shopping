@@ -5,10 +5,11 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { CONVERT_MONEY } from "../../utils/contants";
 import ReactStars from "react-rating-stars-component";
 import Review from "./Review";
+import Rating from "@mui/material/Rating";
 
 const ProductDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  const [star, setStar] = useState<number | null>(null);
   const params = useParams<{ product_id: string }>();
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.productsReducer);
@@ -20,7 +21,6 @@ const ProductDetail = () => {
   const handleOpenReview = () => {
     setIsOpen(true);
   };
-  console.log("re-render");
   return (
     <div>
       <div className="mb-8 flex">
@@ -40,7 +40,10 @@ const ProductDetail = () => {
               {data?.dataDetailProduct?.category_name?.map((value) => {
                 if (value) {
                   return (
-                    <span className="inline-block bg-green-400 mr-2 text-[13px] p-1 rounded-[6px] text-center text-white">
+                    <span
+                      className="inline-block bg-green-400 mr-2 text-[13px] p-1 rounded-[6px] text-center text-white"
+                      key={value}
+                    >
                       {value}
                     </span>
                   );
@@ -50,12 +53,7 @@ const ProductDetail = () => {
           </div>
           <div className="flex items-center justify-start">
             <span>Đánh giá</span>
-            <ReactStars
-              value={data?.dataDetailProduct?.star}
-              edit={false}
-              size={30}
-              classNames="__custom-product-star"
-            />
+            <Rating name="simple-controlled" value={data?.star} readOnly />
           </div>
           <span>Số lượng đã bán: {data?.dataDetailProduct?.sold}</span>
           <span>Số lượng còn lại: {data?.dataDetailProduct?.stock}</span>

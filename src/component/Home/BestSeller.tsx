@@ -1,15 +1,19 @@
 import React from "react";
-import { useAppSelector } from "../../store/hooks";
+import { addToCart } from "../../pages/Home/home.reducer";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import ImageCommon from "../../utils/ImageCommon";
 
 const BestSeller = () => {
   const { data } = useAppSelector((state) => state.homeReducer);
   const dataBestSeller = data?.dataBestSeller;
-  console.log("dataBestSeller", dataBestSeller);
+  const dispatch = useAppDispatch();
+  const handleAddToCart = (product_id: string) => {
+    dispatch(addToCart({ product_id }));
+  };
   return (
     <div className="grid grid-cols-4">
       {dataBestSeller?.map((item) => (
-        <ImageCommon info={item} isEdit={false} />
+        <ImageCommon onAddToCart={handleAddToCart} info={item} isEdit={false} />
       ))}
     </div>
   );

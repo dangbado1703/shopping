@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import instance from "../../config/axios.config";
 import { FormDataHome, FormDataInitState } from "../../model/home.modle";
 import { InitStateForm } from "../../model/root.model";
@@ -9,6 +10,9 @@ const initState: InitStateForm<FormDataInitState<FormDataHome>> = {
     dataBanner: [],
     dataFeatured: [],
   },
+  totalElements: 0,
+  dataCart: [],
+  totalCart: 0,
 };
 
 export const getDataFeatured = createAsyncThunk(
@@ -35,6 +39,28 @@ export const getDataBestSeller = createAsyncThunk(
   }
 );
 
+export const addToCart = createAsyncThunk(
+  "home/addToCart",
+  async ({ product_id }: { product_id: string }) => {
+    const result = await instance.post("/add-to-cart", { product_id });
+    toast.success(result.data.message);
+    return result;
+  }
+);
+
+export const viewCart = createAsyncThunk(
+  "home/viewCart",
+  async ({ page, size }: { page: number; size: number }) => {
+    const result = await instance.get(`/view-cart?page=${page}&size=${size}`);
+    const newData = result.data.data.map((item: any, index: number) => ({
+      ...item,
+      id: item.product_id,
+      no: (page - 1) * size + index + 1,
+    }));
+    return { newData, totalElements: result.data.totalElements };
+  }
+);
+
 const homeSlice = createSlice({
   name: "Home",
   initialState: initState,
@@ -54,7 +80,13 @@ const homeSlice = createSlice({
       .addCase(getDataBestSeller.fulfilled, (state, action) => {
         if (state.data) {
           state.data.dataBestSeller = action.payload.data.data;
+          state.totalElements = action.payload.data.totalElements;
         }
+      })
+      .addCase(viewCart.fulfilled, (state, action) => {
+        console.log("action", action);
+        state.dataCart = action.payload.newData;
+        state.totalCart = action.payload.totalElements;
       });
   },
 });

@@ -8,8 +8,14 @@ interface FormProps {
   info: FormDataHome;
   onChangeValue?: (newValue: string) => void;
   isEdit: boolean;
+  onAddToCart: (product_id: string) => void;
 }
-const ImageCommon = ({ info, onChangeValue, isEdit }: FormProps) => {
+const ImageCommon = ({
+  info,
+  onChangeValue,
+  isEdit,
+  onAddToCart,
+}: FormProps) => {
   const option = {
     size: 20,
     count: 5,
@@ -27,7 +33,11 @@ const ImageCommon = ({ info, onChangeValue, isEdit }: FormProps) => {
   return (
     <div className="w-72 px-6 pb-6 pt-10 rounded-lg hover:scale-110 mb-5 transition-all group cursor-pointer relative image-common">
       <div className="absolute top-2 left-4 w-6 h-6 rounded-full flex items-center justify-center hover:bg-sky-300 transition ease-linear delay-150">
-        <img src={Cart} alt="image" />
+        <img
+          src={Cart}
+          alt="image"
+          onClick={() => onAddToCart(info.product_id)}
+        />
       </div>
       <div className="absolute top-2 left-12 w-6 h-6 rounded-full flex items-center justify-center hover:bg-sky-300 transition ease-linear delay-150">
         <img src={Heart} alt="image" />

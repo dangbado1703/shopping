@@ -19,6 +19,6 @@ export interface FormDataHome {
   is_banner: string;
   is_featured: string;
   sold: string;
-  star: string | null;
+  star: number | null;
   category_name: string[];
 }

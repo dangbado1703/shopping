@@ -10,17 +10,20 @@ import {
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { IFormPropsModal } from "../../model/props.model";
-import { addReview } from "../../pages/Products/products.reducer";
+import {
+  addReview,
+  getDetailProduct,
+} from "../../pages/Products/products.reducer";
+import path from "../../router/path";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import ButtonCancel from "../../utils/ButtonCancel";
 import ButtonSubmit from "../../utils/ButtonSubmit";
+import { TOKEN_KEY } from "../../utils/contants";
 import FieldError from "../../utils/FieldError";
-import ReactStars from "react-rating-stars-component";
-import { TOKEN_KEY, USER_INFO } from "../../utils/contants";
-import path from "../../router/path";
-import { toast } from "react-toastify";
 
+type productId = string;
 const Review = ({
   isOpen,
   setIsOpen,
@@ -59,6 +62,9 @@ const Review = ({
       if (res.meta.requestStatus === "fulfilled") {
         const newPayload: any = res.payload;
         toast.success(newPayload.data.message);
+        if (params.product_id) {
+          dispatch(getDetailProduct(params.product_id));
+        }
         handleClose();
         reset();
       }
@@ -80,9 +86,7 @@ const Review = ({
         aria-describedby="alert-dialog-slide-description"
         fullWidth
       >
-        <DialogTitle className="text-[30px] custom-font">
-          Viết đánh giá
-        </DialogTitle>
+        <DialogTitle className="text-[30px] custom-font">{title}</DialogTitle>
         <form onSubmit={handleSubmit(handleSubmitForm)}>
           <DialogContent id="alert-dialog-slide-description">
             <DialogContentText>

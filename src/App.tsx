@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "./app.scss";
 import ProductDetail from "./component/Products/ProductDetail";
+import Cart from "./pages/Cart/Cart";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Products from "./pages/Products/Products";
@@ -21,6 +22,7 @@ function App() {
             <Route path={path.home} element={<Home />} />
             <Route path={path.products} element={<Products />} />
             <Route path={path.detailProduct} element={<ProductDetail />} />
+            <Route path={path.cart} element={<Cart />} />
           </Route>
           <Route path={path.login} element={<Login />} />
         </Routes>

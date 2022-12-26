@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { viewCart } from "../pages/Home/home.reducer";
+import path from "../router/path";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { MENU } from "./contants";
 import "./layout.scss";
 
@@ -7,9 +10,14 @@ const Layout = () => {
   const [isPage, setIsPage] = useState("/");
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setIsPage(location.pathname);
   }, [location]);
+  useEffect(() => {
+    dispatch(viewCart({ page: 1, size: 10 }));
+  }, [dispatch]);
+  const { totalCart } = useAppSelector((state) => state.homeReducer);
   const className =
     "flex justify-center border-b-4 hover:text-indigo-600 hover:border-b-4 hover:border-indigo-500 py-4 cursor-pointer transition ease-in-out";
   return (
@@ -61,7 +69,10 @@ const Layout = () => {
               <span>Login</span>
             </div>
             <div>
-              <div className="relative cursor-pointer">
+              <div
+                className="relative cursor-pointer"
+                onClick={() => navigate(path.cart)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -77,7 +88,7 @@ const Layout = () => {
                   />
                 </svg>
                 <div className="absolute -top-2 text-yellow-50 text-xs -right-3 w-4 h-4 bg-red-500 flex justify-center items-center rounded-full">
-                  <span>1</span>
+                  <span>{totalCart}</span>
                 </div>
               </div>
             </div>

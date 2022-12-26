@@ -7,12 +7,13 @@ import {
 } from "../../model/products.model";
 import { IFormRating } from "../../model/rating.model";
 import { InitStateForm } from "../../model/root.model";
-const initState: InitStateForm<IFormDataProducts> = {
+const initState: Partial<InitStateForm<IFormDataProducts>> = {
   isLoading: false,
   data: {
     dataProducts: [],
     dataCategory: [],
     dataDetailProduct: null,
+    star: null,
   },
   totalElements: 0,
 };
@@ -75,6 +76,7 @@ const productSlice = createSlice({
       .addCase(getDetailProduct.fulfilled, (state, action) => {
         if (state.data) {
           state.data.dataDetailProduct = action.payload.data.data;
+          state.data.star = action.payload.data.data.star;
         }
       })
       .addCase(addReview.pending, (state) => {

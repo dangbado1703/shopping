@@ -3,4 +3,6 @@ export interface InitStateForm<T> {
   data?: T;
   message?: string;
   totalElements?: number;
+  dataCart: any[];
+  totalCart?: number | null;
 }

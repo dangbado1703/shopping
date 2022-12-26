@@ -4,6 +4,7 @@ export interface IFormDataProducts {
   dataProducts: FormDataHome[];
   dataCategory: FormDataCategory[];
   dataDetailProduct: FormDataHome | null;
+  star: number | null;
 }
 
 export interface FormDataCategory {

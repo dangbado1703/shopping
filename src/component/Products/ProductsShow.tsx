@@ -5,6 +5,7 @@ import { CONVERT_MONEY } from "../../utils/contants";
 import Pagination from "../../utils/Pagination";
 import { IFormSearchProducts } from "../../model/products.model";
 import { useNavigate } from "react-router-dom";
+import Rating from "@mui/material/Rating";
 
 interface IFormProps {
   page: number;
@@ -18,12 +19,12 @@ const ProductsShow = ({ page, size, valueSearch }: IFormProps) => {
   );
   return (
     <div>
-      {data?.dataProducts.map((item) => (
+      {data?.dataProducts?.map((item) => (
         <div className="mb-8 flex">
           <div className="w-1/3">
             <img
               src={item?.image}
-              onClick={() => navigate(`/product/detail/${item.product_id}`)}
+              onClick={() => navigate(`/product/detail/${item?.product_id}`)}
               className="w-full"
             />
           </div>
@@ -47,12 +48,7 @@ const ProductsShow = ({ page, size, valueSearch }: IFormProps) => {
             </div>
             <div className="flex items-center justify-start">
               <span>Đánh giá</span>
-              <ReactStars
-                value={item?.star}
-                edit={false}
-                size={30}
-                classNames="__custom-product-star"
-              />
+              <Rating value={item?.star} readOnly />
             </div>
             <span>Số lượng đã bán: {item?.sold}</span>
             <span>Số lượng còn lại: {item?.stock}</span>
