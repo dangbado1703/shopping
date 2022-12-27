@@ -13,6 +13,7 @@ const initState: InitStateForm<FormDataInitState<FormDataHome>> = {
   totalElements: 0,
   dataCart: [],
   totalCart: 0,
+  isLoading: false,
 };
 
 export const getDataFeatured = createAsyncThunk(
@@ -84,9 +85,15 @@ const homeSlice = createSlice({
         }
       })
       .addCase(viewCart.fulfilled, (state, action) => {
-        console.log("action", action);
         state.dataCart = action.payload.newData;
         state.totalCart = action.payload.totalElements;
+        state.isLoading = false;
+      })
+      .addCase(viewCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(viewCart.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

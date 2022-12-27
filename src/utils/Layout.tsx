@@ -14,9 +14,9 @@ const Layout = () => {
   useEffect(() => {
     setIsPage(location.pathname);
   }, [location]);
-  useEffect(() => {
-    dispatch(viewCart({ page: 1, size: 10 }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(viewCart({ page: 1, size: 10 }));
+  // }, [dispatch]);
   const { totalCart } = useAppSelector((state) => state.homeReducer);
   const className =
     "flex justify-center border-b-4 hover:text-indigo-600 hover:border-b-4 hover:border-indigo-500 py-4 cursor-pointer transition ease-in-out";

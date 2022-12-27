@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { IFormCart } from "../../model/cart.model";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Tooltip } from "@mui/joy";
 import { Rating } from "@mui/material";
+import { viewCart } from "../../pages/Home/home.reducer";
 const CartTable = () => {
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const dispatch = useAppDispatch();
   const columns: GridColDef<IFormCart>[] = [
     {
       field: "no",
@@ -78,7 +82,16 @@ const CartTable = () => {
     },
     {
       field: "stock",
-      headerName: "Số lượng hàng",
+      headerName: "Số lượng hàng còn",
+      width: 200,
+      sortable: false,
+      disableColumnMenu: true,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "total",
+      headerName: "Số lượng đơn đặt hàng",
       width: 200,
       sortable: false,
       disableColumnMenu: true,
@@ -86,14 +99,32 @@ const CartTable = () => {
       headerAlign: "center",
     },
   ];
-  const { dataCart } = useAppSelector((state) => state.homeReducer);
+  useEffect(() => {
+    dispatch(viewCart({ page: page + 1, size }));
+  }, [page, size]);
+  const { dataCart, isLoading, totalCart } = useAppSelector(
+    (state) => state.homeReducer
+  );
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div className="w-full h-[600px]">
       <DataGrid
         rows={dataCart}
         columns={columns}
-        disableSelectionOnClick={true}
-        density="comfortable"
+        disableSelectionOnClick
+        loading={isLoading}
+        onPageChange={(page) => {
+          setPage(page);
+        }}
+        onPageSizeChange={(pageSize) => {
+          setSize(pageSize);
+        }}
+        page={page}
+        pageSize={size}
+        autoHeight
+        paginationMode="server"
+        pagination
+        rowCount={totalCart}
+        rowsPerPageOptions={[5, 10, 15]}
       />
     </div>
   );

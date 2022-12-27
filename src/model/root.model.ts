@@ -4,5 +4,5 @@ export interface InitStateForm<T> {
   message?: string;
   totalElements?: number;
   dataCart: any[];
-  totalCart?: number | null;
+  totalCart?: number | undefined;
 }
